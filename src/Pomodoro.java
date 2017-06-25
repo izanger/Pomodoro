@@ -39,7 +39,13 @@ public class Pomodoro {
             }
         }
 
-        //Scanner s = new Scanner(System.in);
+        Scanner s = new Scanner(System.in);
+        System.out.println("Press <Enter> to start a new Pomodoro cycle with the same settings, or a letter to quit.");
+        String input = s.nextLine();
+
+        if(input.length() == 0){
+            cyclePomodoro(pomLength, shortBreakLength, longBreakLength);
+        }
     }
 
 }
