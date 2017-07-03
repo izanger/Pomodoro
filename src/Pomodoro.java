@@ -4,9 +4,14 @@
 import java.util.Scanner;
 
 public class Pomodoro {
-    public static int defaultPomLength = 25;
-    public static int defaultShortBreakLength = 5;
-    public static int defaultLongBreakLength = 15;
+
+    //default settings, with lengths in minutes.
+    public static double defaultPomLength = 25.0;
+    public static double defaultShortBreakLength = 5.0;
+    public static double defaultLongBreakLength = 15.0;
+
+    public static int defaultNumPoms = 4;
+
     public static void main(String[] args) {
         Scanner s = new Scanner(System.in);
         System.out.println("Press <Enter> for a standard Pomodoro cycle, or type a letter for a custom cycle.");
@@ -14,7 +19,7 @@ public class Pomodoro {
 
         if(input.length() == 0) {
             try {
-                cyclePomodoro(defaultPomLength, defaultShortBreakLength, defaultLongBreakLength);
+                cyclePomodoro(defaultPomLength, defaultShortBreakLength, defaultLongBreakLength, defaultNumPoms);
             } catch (InterruptedException e) {
                 System.err.println("Interrupted exception");
             }
@@ -23,22 +28,22 @@ public class Pomodoro {
         }
     }
 
-    public static void cyclePomodoro(int pomLength, int shortBreakLength, int longBreakLength) throws InterruptedException {
+    public static void cyclePomodoro(double pomLength, double shortBreakLength, double longBreakLength, int numPoms) throws InterruptedException {
 
-        for(int i = 0; i < 4; i++) {
+        for(int i = 0; i < numPoms; i++) {
             if(i > 0) {
-                System.out.print("5 minutes elapsed. ");
+                System.out.print(shortBreakLength + " minutes elapsed. ");
             }
 
-            System.out.println("Starting timer for 25 minutes.");
-            Thread.sleep(5 * 1000); //replace with 25min when done testing: 25 * 60 * 1000
+            System.out.println("Starting timer for " + pomLength + " minutes.");
+            Thread.sleep((long) pomLength * 1000 * 60);
 
-            if(i == 3){
-                System.out.println("25 minutes elapsed. Starting timer for 15 minute break.");
-                Thread.sleep(10 * 1000); //replace with 15 * 60 * 1000
+            if(i == (numPoms - 1) ) {
+                System.out.println(pomLength + " minutes elapsed. Starting timer for " + longBreakLength + " minute break.");
+                Thread.sleep((long) longBreakLength * 1000 *  60);
             } else {
-                System.out.println("25 minutes elapsed. Starting timer for 5 minute break.");
-                Thread.sleep(1000 * 5); //replace with 5 * 60 * 1000
+                System.out.println(pomLength + " minutes elapsed. Starting timer for " + shortBreakLength + " minute break.");
+                Thread.sleep((long) shortBreakLength * 1000 * 60 );
             }
         }
 
@@ -47,7 +52,7 @@ public class Pomodoro {
         String input = s.nextLine();
 
         if(input.length() == 0){
-            cyclePomodoro(pomLength, shortBreakLength, longBreakLength);
+            cyclePomodoro(pomLength, shortBreakLength, longBreakLength, numPoms);
         }
     }
 
