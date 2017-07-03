@@ -111,21 +111,20 @@ public class Pomodoro {
 
     public static void cyclePomodoro(double pomLength, double shortBreakLength, double longBreakLength, int numPoms) throws InterruptedException {
 
-
-        System.out.println("NUM POMS: " + numPoms);
         for(int i = 0; i < numPoms; i++) {
             if(i > 0) {
                 System.out.print(shortBreakLength + " minutes elapsed. ");
             }
 
             System.out.println("Starting timer for " + pomLength + " minutes.");
-            Thread.sleep((long) pomLength * 1000 * 60);
+            Thread.sleep((long) (pomLength * 1000 * 60));
+            
 
             if(i == (numPoms - 1) ) {
                 System.out.println(pomLength + " minutes elapsed. Starting timer for " + longBreakLength + " minute break.");
-                Thread.sleep((long) longBreakLength * 1000 *  60);
+                Thread.sleep((long) (longBreakLength * 1000 *  60));
                 System.out.println(pomLength + " minutes elapsed. Starting timer for " + shortBreakLength + " minute break.");
-                Thread.sleep((long) shortBreakLength * 1000 * 60);
+                Thread.sleep((long) (shortBreakLength * 1000 * 60));
             }
         }
 
