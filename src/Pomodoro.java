@@ -2,13 +2,14 @@
  * Created by ianzanger on 6/24/17.
  */
 import java.util.Scanner;
+
 public class Pomodoro {
     public static int defaultPomLength = 25;
     public static int defaultShortBreakLength = 5;
     public static int defaultLongBreakLength = 15;
     public static void main(String[] args) {
         Scanner s = new Scanner(System.in);
-        System.out.println("Press <Enter> for a standard Pomodoro cycle, or any key + <Enter> for a custom cycle.");
+        System.out.println("Press <Enter> for a standard Pomodoro cycle, or type a letter for a custom cycle.");
         String input = s.nextLine();
 
         if(input.length() == 0) {
@@ -17,6 +18,8 @@ public class Pomodoro {
             } catch (InterruptedException e) {
                 System.err.println("Interrupted exception");
             }
+        } else {
+
         }
     }
 
@@ -40,11 +43,20 @@ public class Pomodoro {
         }
 
         Scanner s = new Scanner(System.in);
-        System.out.println("Press <Enter> to start a new Pomodoro cycle with the same settings, or a letter to quit.");
+        System.out.println("Press <Enter> to start a new Pomodoro cycle with the same settings, or type a letter to quit.");
         String input = s.nextLine();
 
         if(input.length() == 0){
             cyclePomodoro(pomLength, shortBreakLength, longBreakLength);
+        }
+    }
+
+    public static boolean isValidNumber (String num) {
+        try {
+            Double.parseDouble(num);
+            return true;
+        } catch (Exception e) {
+            return false;
         }
     }
 
