@@ -153,13 +153,19 @@ public class Pomodoro {
         Scanner s = new Scanner(System.in);
         System.out.println("Type: " +
                 "\n\t > <Enter> to start another set of Pomodoro cycles with the same settings " +
-                "\n\t > A number for that many more cycles of the same settings " +
+                "\n\t > A number for that many more cycles with the same settings " +
                 "\n\t > \"Default\" for a cycle with default settings " +
                 "\n\t > Any other key to quit");
-        String input = s.nextLine();
 
+        String input = s.nextLine();
         if (input.length() == 0) {
             cyclePomodoro(pomLength, shortBreakLength, longBreakLength, numPoms, numCycles);
+        } else if(input.toLowerCase().equals("default")){
+            cyclePomodoro(defaultPomLength, defaultShortBreakLength, defaultLongBreakLength, defaultNumPoms, defaultNumCycles);
+        } else if(isValidNumber(input)){
+            if(Double.parseDouble(input) >= 1.0){
+                cyclePomodoro(pomLength, shortBreakLength, longBreakLength, numPoms, (int) Double.parseDouble(input));
+            }
         }
     }
 
