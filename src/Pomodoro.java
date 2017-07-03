@@ -11,12 +11,14 @@ public class Pomodoro {
     public static double defaultLongBreakLength = 15.0;
 
     public static int defaultNumPoms = 4;
+    public static int defaultNumCycles = 1;
 
     public static void main(String[] args) {
         double pomLength = -1;
         double shortBreakLength = -1;
         double longBreakLength = -1;
         int numPoms = -1;
+        int numCycles = -1;
 
         Scanner s = new Scanner(System.in);
         System.out.println("Press <Enter> for a standard Pomodoro cycle, or type a letter for a custom cycle.");
@@ -24,7 +26,7 @@ public class Pomodoro {
 
         if(input.length() == 0) {
             try {
-                cyclePomodoro(defaultPomLength, defaultShortBreakLength, defaultLongBreakLength, defaultNumPoms);
+                cyclePomodoro(defaultPomLength, defaultShortBreakLength, defaultLongBreakLength, defaultNumPoms, defaultNumCycles);
             } catch (InterruptedException e) {
                 System.err.println("Interrupted exception");
             }
@@ -99,8 +101,10 @@ public class Pomodoro {
                 numPoms = (int) Double.parseDouble(input);
             }
 
+
+
             try {
-                cyclePomodoro(pomLength, shortBreakLength, longBreakLength, numPoms);
+                cyclePomodoro(pomLength, shortBreakLength, longBreakLength, numPoms, numCycles);
             } catch (InterruptedException e) {
                 System.err.println("Interrupted exception");
             }
@@ -109,31 +113,35 @@ public class Pomodoro {
 
     }
 
-    public static void cyclePomodoro(double pomLength, double shortBreakLength, double longBreakLength, int numPoms) throws InterruptedException {
+    public static void cyclePomodoro(double pomLength, double shortBreakLength, double longBreakLength, int numPoms, int numCycles) throws InterruptedException {
+        for(int j = 0; j < numCycles; j++) {
+            for (int i = 0; i < numPoms; i++) {
+                System.out.println("Starting work timer for " + pomLength + " minutes.");
+                Thread.sleep((long) (pomLength * 1000 * 60));
+                System.out.print("Work period completed. ");
 
-        for(int i = 0; i < numPoms; i++) {
-            if(i > 0) {
-                System.out.print(shortBreakLength + " minutes elapsed. ");
+                if (i == (numPoms - 1)) {
+                    System.out.println("Starting long break timer for " + longBreakLength + " minutes.");
+                    Thread.sleep((long) (longBreakLength * 1000 * 60));
+                    System.out.println("Long break period completed. ");
+                } else {
+                    System.out.println("Starting short break timer for " + shortBreakLength + " minutes.");
+                    Thread.sleep((long) (shortBreakLength * 1000 * 60));
+                    System.out.print("Short break period completed. ");
+                }
             }
 
-            System.out.println("Starting timer for " + pomLength + " minutes.");
-            Thread.sleep((long) (pomLength * 1000 * 60));
-            
+            Scanner s = new Scanner(System.in);
+            System.out.println("Type: " +
+                    "\n\t > <Enter> to start another Pomodoro cycle with the same settings " +
+                    "\n\t > A number for that many more cycles of the same settings " +
+                    "\n\t > \"Default\" for a cycle with default settings " +
+                    "\n\t > Any other key to quit");
+            String input = s.nextLine();
 
-            if(i == (numPoms - 1) ) {
-                System.out.println(pomLength + " minutes elapsed. Starting timer for " + longBreakLength + " minute break.");
-                Thread.sleep((long) (longBreakLength * 1000 *  60));
-                System.out.println(pomLength + " minutes elapsed. Starting timer for " + shortBreakLength + " minute break.");
-                Thread.sleep((long) (shortBreakLength * 1000 * 60));
+            if (input.length() == 0) {
+                cyclePomodoro(pomLength, shortBreakLength, longBreakLength, numPoms);
             }
-        }
-
-        Scanner s = new Scanner(System.in);
-        System.out.println("Press <Enter> to start a new Pomodoro cycle with the same settings, or type a letter to quit.");
-        String input = s.nextLine();
-
-        if(input.length() == 0){
-            cyclePomodoro(pomLength, shortBreakLength, longBreakLength, numPoms);
         }
     }
 
